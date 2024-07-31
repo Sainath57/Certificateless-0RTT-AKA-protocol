@@ -3,6 +3,7 @@ package com.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -36,10 +37,8 @@ public class UserPK extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PrintWriter pw =response.getWriter();
-		HttpSession session=request.getSession();
 		/*String uid=(String)session.getAttribute("email");*/
 		String uid=request.getParameter("email");
-		String pk = PortNumber.getUserPk();
 		/*String trapdoorkey=DBConnection.getkey(fid);*/
 		System.out.println("kkkkkkkkk"+uid);
 		Connection con=DBConnection.connect();
@@ -51,13 +50,15 @@ public class UserPK extends HttpServlet {
 				pw.println("alert('Already Private Keys Generated Successfully');");
 				pw.println("window.location='UserKeyGen.jsp';</script>");
 			} else {
-			Statement st=con.createStatement();
-			int i=st.executeUpdate("insert into userpk values('KGC','"+uid+"','"+pk+"') ");
-			 pw.println("<script type=\"text/javascript\">");
-			 pw.println("alert('Private Keys For Cloud User("+uid+") are Generated Successfully');");
-			 pw.println("location='UserKeyGen.jsp';");
-			 pw.println("</script>");
-		//	response.sendRedirect("UserKeyGen.jsp");
+			PreparedStatement st=con.prepareStatement("insert into userpk values('KGC',?,?) ");
+			st.setString(1, request.getParameter("email"));
+			st.setString(2, PortNumber.getUserPk());
+			pw.println("<script type=\"text/javascript\">");
+			pw.println("alert('Private Keys For Cloud User("+uid+") are Generated Successfully');");
+			pw.println("location='UserKeyGen.jsp';");
+			pw.println("</script>");
+
+			//	response.sendRedirect("UserKeyGen.jsp");
 		} }catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

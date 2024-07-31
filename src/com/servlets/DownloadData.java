@@ -3,6 +3,7 @@ package com.servlets;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -35,12 +36,10 @@ public class DownloadData extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			String uid=request.getParameter("email");	
-			String fid=request.getParameter("fid");
 			Connection con=DBConnection.connect();
-			Statement st=con.createStatement();
-			ResultSet r=st.executeQuery("select * from store where uid='"+uid+"' ");
-			
+			PreparedStatement st=con.prepareStatement("select * from store where uid=? ");
+			st.setString(1, request.getParameter("email"));
+			ResultSet r=st.execute();
 			OutputStream o = response.getOutputStream();
 			if(r.next())
 			{
@@ -49,6 +48,7 @@ public class DownloadData extends HttpServlet {
 			}
 			o.flush();
 			o.close();
+
 			}catch (Exception exception){
 				exception.printStackTrace();
 			}
