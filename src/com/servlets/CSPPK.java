@@ -3,6 +3,7 @@ package com.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -36,10 +37,8 @@ public class CSPPK extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PrintWriter pw=response.getWriter();
-		HttpSession session=request.getSession();
 		/*String uid=(String)session.getAttribute("email");*/
 		String cid=request.getParameter("cspemail");
-		String cpk = PortNumber.getCSPPk();
 		/*String trapdoorkey=DBConnection.getkey(fid);*/
 		System.out.println("kkkkkkkkk"+cid);
 		Connection con=DBConnection.connect();
@@ -51,13 +50,15 @@ public class CSPPK extends HttpServlet {
 				pw.println("alert('Already Private Keys Generated Successfully');");
 				pw.println("window.location='CSPKeyGen.jsp';</script>");
 			} else {
-			Statement st=con.createStatement();
-			int i=st.executeUpdate("insert into csppk values('KGC','"+cid+"','"+cpk+"') ");
-			 pw.println("<script type=\"text/javascript\">");
-			 pw.println("alert('Private Keys (pk) For "+cid+" are Generated Successfully');");
-			 pw.println("location='CSPKeyGen.jsp';");
-			 pw.println("</script>");
-		//	response.sendRedirect("CSPKeyGen.jsp");
+			PreparedStatement st=con.prepareStatement("insert into csppk values('KGC',?,?) ");
+			st.setString(1, request.getParameter("cspemail"));
+			st.setString(2, PortNumber.getCSPPk());
+			pw.println("<script type=\"text/javascript\">");
+			pw.println("alert('Private Keys (pk) For "+cid+" are Generated Successfully');");
+			pw.println("location='CSPKeyGen.jsp';");
+			pw.println("</script>");
+
+			//	response.sendRedirect("CSPKeyGen.jsp");
 		}
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
