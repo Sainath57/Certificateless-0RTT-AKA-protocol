@@ -4,6 +4,7 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.SecureRandom;
 import java.security.spec.ECGenParameterSpec;
 import java.util.Random;
 
@@ -12,7 +13,7 @@ public class RandomeString {
 	public static String getSaltString() {
         String SALTCHARS = "0123456789abcdefghijklSTUVWXYZuvwxyz";
         StringBuilder salt = new StringBuilder();
-        Random rnd = new Random();
+        Random rnd = new SecureRandom();
         while (salt.length() < 8) { // length of the random string.
             int index = (int) (rnd.nextFloat() * SALTCHARS.length());
             salt.append(SALTCHARS.charAt(index));
@@ -25,7 +26,7 @@ public class RandomeString {
 	public static String getAccNO() {
         String SALTCHARS = "123456789012345678901234567890";
         StringBuilder salt = new StringBuilder();
-        Random rnd = new Random();
+        Random rnd = new SecureRandom();
         while (salt.length() < 10) { // length of the random string.
             int index = (int) (rnd.nextFloat() * SALTCHARS.length());
             salt.append(SALTCHARS.charAt(index));
@@ -38,7 +39,7 @@ public class RandomeString {
 	public static String getFid() {
         String SALTCHARS = "123456789012345678901234567890";
         StringBuilder salt = new StringBuilder();
-        Random rnd = new Random();
+        Random rnd = new SecureRandom();
         while (salt.length() < 5) { // length of the random string.
             int index = (int) (rnd.nextFloat() * SALTCHARS.length());
             salt.append(SALTCHARS.charAt(index));
@@ -51,7 +52,7 @@ public class RandomeString {
 	public static String getMasterKey() {
         String SALTCHARS = "1234567890abcdefghi";
         StringBuilder salt = new StringBuilder();
-        Random rnd = new Random();
+        Random rnd = new SecureRandom();
         while (salt.length() < 5) { // length of the random string.
             int index = (int) (rnd.nextFloat() * SALTCHARS.length());
             salt.append(SALTCHARS.charAt(index));
@@ -63,7 +64,7 @@ public class RandomeString {
 	public static String getSecretKey() {
         String SALTCHARS = "1234567890abcdefghi";
         StringBuilder salt = new StringBuilder();
-        Random rnd = new Random();
+        Random rnd = new SecureRandom();
         while (salt.length() < 5) { // length of the random string.
             int index = (int) (rnd.nextFloat() * SALTCHARS.length());
             salt.append(SALTCHARS.charAt(index));
@@ -89,7 +90,7 @@ public class RandomeString {
 	public static String getPrivateKey() {
 	        String SALTCHARS = "678rstuvwxyz590abcdefg1234pqhijk";
 	        StringBuilder salt = new StringBuilder();
-	        Random rnd = new Random();
+	        Random rnd = new SecureRandom();
 	        while (salt.length() < 5) { // length of the random string.
 	            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
 	            salt.append(SALTCHARS.charAt(index));
@@ -115,7 +116,7 @@ public class RandomeString {
 	public static String getTrapdoorKey() {
         String SALTCHARS = "1234567890abcdefghiABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
         StringBuilder salt = new StringBuilder();
-        Random rnd = new Random();
+        Random rnd = new SecureRandom();
         while (salt.length() < 5) { // length of the random string.
             int index = (int) (rnd.nextFloat() * SALTCHARS.length());
             salt.append(SALTCHARS.charAt(index));
