@@ -3,6 +3,7 @@ package com.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -53,12 +54,17 @@ public class SendRequest extends HttpServlet {
 				pw.println("alert('("+uid+")Already Made a request');");
 				pw.println("window.location='Enroll.jsp';</script>");
 			} else {
-			Statement st=con.createStatement();
-			int i=st.executeUpdate("insert into request values('"+cid+"','"+uid+"','"+cspemail+"','Pending')");
-			 pw.println("<script type=\"text/javascript\">");
-			 pw.println("alert('Cloud User("+uid+")Request Sent Successfully...');");
-			 pw.println("location='Enroll.jsp';");
-			 pw.println("</script>");
+			PreparedStatement st=con.prepareStatement("insert into request values(?,?,?,'Pending')");
+			st.setString(1, request.getParameter("cid"));
+			st.setString(2, (String)session.getAttribute("email"));
+			st.setString(3, request.getParameter("cspemail"));
+			pw.println("<script type=\"text/javascript\">");
+			pw.println("alert('Cloud User("+uid+")Request Sent Successfully...');");
+			pw.println("location='Enroll.jsp';");
+			pw.println("</script>");
+
+			
+
 			//response.sendRedirect("Enroll.jsp");
 		}
 		}catch (SQLException e) {
